@@ -20,15 +20,25 @@ export class PokemonDetail implements OnInit {
     const name = this.route.snapshot.paramMap.get('name');
 
     if (name) {
-      this.pokeService.getPokemonDetailsByName(name);
+      this.pokeService.getPokemonDetailsByName(name).subscribe({
+        next: (data) => {
+          this.pokeService.selectedPokemon.set(data);
+        },
+        error: (err) => {
+          console.error('Failed to load Pokémon stats', err);
+        },
+      });
     }
   }
 
   searchPokemon() {
-  const query = this.pokeService.searchTerm().toLowerCase();
-  if (query) {
-    this.router.navigate(['/details', query]);
-    this.pokeService.getPokemonDetailsByName(query);
+    const query = this.pokeService.searchTerm().toLowerCase();
+    if (query) {
+      this.pokeService.selectedPokemon.set(null);
+      this.router.navigate(['/details', query]);
+      this.pokeService.getPokemonDetailsByName(query).subscribe((data) => {
+        this.pokeService.selectedPokemon.set(data);
+      });
+    }
   }
-}
 }

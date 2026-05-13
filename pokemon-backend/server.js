@@ -18,6 +18,7 @@ app.post('/api/team', async (req, res) => {
     try {
         const newPokemon = new Pokemon(req.body);
         const savedPokemon = await newPokemon.save();
+        console.log(`Added: ${savedPokemon.name}`);
         res.status(201).json(savedPokemon);
     } catch (err) {
         res.status(400).json({ message: err.message });
@@ -28,6 +29,19 @@ app.get('/api/team', async (req, res) => {
     try {
         const team = await Pokemon.find();
         res.json(team);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+app.delete('/api/team/:id', async (req, res) => {
+    try {
+        const deletedPokemon = await Pokemon.findByIdAndDelete(req.params.id);
+        if (!deletedPokemon) {
+            return res.status(404).json({ message: 'Pokemon not found in database' });
+        }
+        console.log(`Removed ID: ${req.params.id}`);
+        res.json({ message: 'Pokemon removed from team!' });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
