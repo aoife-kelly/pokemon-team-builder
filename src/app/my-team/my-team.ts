@@ -1,6 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { PokemonapiService } from '../services/pokemonapi-service';
 import { CommonModule } from '@angular/common'; 
+import { environment } from '../../environments/environment';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-my-team',
@@ -11,15 +13,17 @@ import { CommonModule } from '@angular/common';
 })
 export class MyTeam { 
   public pokeService = inject(PokemonapiService);
-
+  private http = inject(HttpClient);
   getPokemonID(url: string): string {
     const parts = url.split('/');
     return parts[parts.length - 2];
   }
 
   removeFromTeam(pokemon: any) {
-    const currentTeam = this.pokeService.myTeam();
-    const updatedTeam = currentTeam.filter(p => p.name !== pokemon.name);
-    this.pokeService.myTeam.set(updatedTeam);
+  if (pokemon._id) {
+    this.pokeService.removeFromTeam(pokemon._id);
+  } else {
+    console.error("This pokemon doesn't have a database _id!");
   }
+}
 }

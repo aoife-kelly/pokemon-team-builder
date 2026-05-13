@@ -80,11 +80,11 @@ export class PokemonapiService {
   }
 
   removeFromTeam(mongoId: string) {
-    this.http.delete(`http://localhost:5000/api/team/${mongoId}`).subscribe({
-      next: () => {
-        this.myTeam.set(this.myTeam().filter((p) => p._id !== mongoId));
-      },
-      error: (err) => console.error('Delete failed:', err),
-    });
-  }
+  this.http.delete(`${this.backendUrl}/${mongoId}`).subscribe({
+    next: () => {
+      this.myTeam.set(this.myTeam().filter((p) => p._id !== mongoId));
+    },
+    error: (err) => console.error('Delete failed:', err),
+  });
+}
 }
