@@ -1,1 +1,68 @@
-<p>pokemon-detail works!</p>
+<div class="container mt-4 mb-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 p-2">
+                <div class="input-group">
+                    <input type="text" class="form-control border-0" placeholder="Search for another Pokémon..."
+                        [value]="pokeService.searchTerm()"
+                        (input)="pokeService.searchTerm.set($any($event.target).value)" (keyup.enter)="searchPokemon()">
+
+                    <button class="btn btn-primary px-4" (click)="searchPokemon()">
+                        Search
+                    </button>
+
+                    <a routerLink="/" class="btn btn-outline-secondary">
+                        Back
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5">
+    @if (pokeService.selectedPokemon(); as pokemon) {
+    <div class="row">
+        <div class="col-md-4 text-center">
+            <div class="card shadow p-4">
+                <img [src]="pokemon.sprites.other['official-artwork'].front_default" class="img-fluid"
+                    [alt]="pokemon.name">
+                <h2 class="text-capitalize mt-3">{{ pokemon.name }}</h2>
+                <div class="mt-2">
+                    @for (t of pokemon.types; track t.type.name) {
+                    <span class="badge bg-info me-1">{{ t.type.name | titlecase }}</span>
+                    }
+                </div>
+            </div>
+            <button class="btn btn-success w-100 mt-3" (click)="pokeService.addToTeam(pokemon)">
+                Add to Team
+            </button>
+            <a routerLink="/" class="btn btn-outline-secondary w-100 mt-2">Back to List</a>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card shadow p-4">
+                <h3>Base Stats</h3>
+                <hr>
+                @for (s of pokemon.stats; track s.stat.name) {
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between">
+                        <span class="text-capitalize">{{ s.stat.name }}</span>
+                        <strong>{{ s.base_stat }}</strong>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" [style.width.%]="(s.base_stat / 255) * 100">
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+    } @else {
+    <div class="text-center mt-5">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p>Loading stats...</p>
+    </div>
+    }
+</div>

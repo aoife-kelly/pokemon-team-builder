@@ -1,1 +1,37 @@
-<p>my-team works!</p>
+<div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>My Pokémon Team</h2>
+    <span class="badge bg-primary fs-5">{{ pokeService.myTeam().length }} / 6 Slots Filled</span>
+  </div>
+
+  <hr>
+
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    @for (pokemon of pokeService.myTeam(); track pokemon.name) {
+      <div class="col">
+        <div class="card h-100 border-primary shadow">
+          <div class="p-3 text-center">
+            <img [src]="'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + getPokemonID(pokemon.url) + '.png'" 
+                 class="img-fluid" 
+                 style="width: 150px;"
+                 [alt]="pokemon.name">
+          </div>
+          <div class="card-body text-center">
+            <h4 class="card-title text-capitalize">{{ pokemon.name }}</h4>
+            <button class="btn btn-outline-danger w-100 mt-3" (click)="removeFromTeam(pokemon)">
+              Remove from Team
+            </button>
+          </div>
+        </div>
+      </div>
+    } @empty {
+      <div class="col-12 text-center mt-5">
+        <div class="alert alert-info">
+          <h3>Your team is empty!</h3>
+          <p>Go back to the Browse page to start building your squad.</p>
+          <a routerLink="/" class="btn btn-primary mt-2">Go Browsing</a>
+        </div>
+      </div>
+    }
+  </div>
+</div>

@@ -1,27 +1,54 @@
-<div class="container mt-5"> <form class="row g-2 align-items-center mb-4" (submit)="searchPokemon(); $event.preventDefault()">
-        <div class="col-auto">
-            <input type="text" class="form-control" placeholder="Search Pokémon" [value]="searchTerm()"
-                (input)="searchTerm.set($any($event.target).value)">
-        </div>
-        <div class="col-auto">
-            <button type="submit" class="btn btn-primary px-4">Search</button> </div>
-        <div class="col-auto">
-            <button type="button" class="btn btn-outline-secondary" (click)="clearSearch()">Clear</button>
-        </div>
-    </form>
-
-    <hr>
-
-    <div class="row row-cols-1 row-cols-md-4 g-4"> @for (pokemon of pokeService.pokemonList(); track pokemon.name) {
-        <div class="col">
-            <div class="card h-100 shadow-sm custom-card"> <div class="p-3"> <img [src]="'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + getPokemonID(pokemon.url) + '.png'"
-                        class="card-img-top pokemon-img" [alt]="pokemon.name">
-                </div>
-                <div class="card-body text-center border-top">
-                    <h6 class="card-title text-capitalize fw-bold">{{ pokemon.name }}</h6>
-                </div>
+<div class="container mt-5">
+    <div class="row mb-4 justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm p-4">
+                <form class="row g-2 align-items-center" (submit)="searchPokemon(); $event.preventDefault()">
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="Search Pokémon (e.g. Pikachu)"
+                            [value]="pokeService.searchTerm()"
+                            (input)="pokeService.searchTerm.set($any($event.target).value)">
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary px-4">Search</button>
+                    </div>
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-outline-secondary" (click)="clearSearch()">Clear</button>
+                    </div>
+                </form>
             </div>
         </div>
-        }
     </div>
+
+    <hr class="my-5">
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+    </div>
+</div>
+
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+    @for (pokemon of pokeService.pokemonList(); track pokemon.name) {
+    <div class="col">
+        <div class="card h-100 shadow-sm custom-card">
+
+            <a [routerLink]="['/details', pokemon.name]" class="text-decoration-none">
+                <div class="p-4 text-center">
+                    <img [src]="'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + getPokemonID(pokemon.url) + '.png'"
+                        class="card-img-top pokemon-img" [alt]="pokemon.name">
+                </div>
+            </a>
+
+            <div class="card-body text-center border-top bg-light">
+                <a [routerLink]="['/details', pokemon.name]" class="text-decoration-none text-dark">
+                    <h5 class="card-title text-capitalize fw-bold mb-3">{{ pokemon.name }}</h5>
+                </a>
+
+                <button class="btn btn-success w-100 d-flex align-items-center justify-content-center gap-2"
+                    (click)="pokeService.addToTeam(pokemon)">
+                    <i class="bi bi-plus-circle"></i> Add to Team
+                </button>
+            </div>
+        </div>
+    </div>
+    } @empty {
+    }
 </div>

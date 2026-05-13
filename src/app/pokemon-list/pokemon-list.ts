@@ -1,12 +1,13 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { PokemonapiService } from '../services/pokemonapi-service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-pokemon-list',
   standalone: true,
   templateUrl: './pokemon-list.html',
   styleUrl: './pokemon-list.css',
-  imports: []
+  imports: [RouterLink],
 })
 export class PokemonList implements OnInit {
   public pokeService = inject(PokemonapiService);
@@ -22,15 +23,15 @@ export class PokemonList implements OnInit {
   }
 
   searchPokemon() {
-    const query = this.searchTerm().toLowerCase();
-    const filtered = this.pokeService.pokemonList().filter(pokemon => 
-      pokemon.name.toLowerCase().includes(query)
-    );
+    const query = this.pokeService.searchTerm().toLowerCase();
+    const filtered = this.pokeService
+      .pokemonList()
+      .filter((pokemon) => pokemon.name.toLowerCase().includes(query));
     this.pokeService.pokemonList.set(filtered);
   }
 
   clearSearch() {
-  this.searchTerm.set(''); 
-  this.pokeService.getPokemonList(); 
-}
+    this.pokeService.searchTerm.set(''); // clear the search term
+    this.pokeService.getPokemonList(); // reset the pokemon list to the full list
+  }
 }
