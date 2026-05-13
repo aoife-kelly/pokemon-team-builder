@@ -1,12 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { PokemonapiService } from '../services/pokemonapi-service';
 import { CommonModule } from '@angular/common'; 
-import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-my-team',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './my-team.html',
   styleUrl: './my-team.css'
 })
