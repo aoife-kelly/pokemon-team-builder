@@ -1,5 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +9,7 @@ export class PokemonapiService {
   private http = inject(HttpClient);
   public selectedPokemon = signal<any>(null);
   private pokeApiUrl = 'https://pokeapi.co/api/v2/pokemon';
-  private backendUrl = 'http://localhost:5000/api/team';
+  private backendUrl = environment.apiUrl;
   public pokemonList = signal<any[]>([]);
   public myTeam = signal<any[]>([]);
   public searchTerm = signal('');
