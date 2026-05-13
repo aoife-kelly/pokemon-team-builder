@@ -1,0 +1,15 @@
+.custom-card {
+    border: 1px solid #ddd !important; 
+    transition: transform 0.2s;
+}
+
+.custom-card:hover {
+    transform: scale(1.03); 
+    border-color: #007bff !important;
+}
+
+.pokemon-img {
+    width: 120px; 
+    margin: 0 auto;
+    display: block;
+}

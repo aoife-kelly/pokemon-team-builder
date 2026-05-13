@@ -1,1 +1,27 @@
-<p>pokemon-list works!</p>
+<div class="container mt-5"> <form class="row g-2 align-items-center mb-4" (submit)="searchPokemon(); $event.preventDefault()">
+        <div class="col-auto">
+            <input type="text" class="form-control" placeholder="Search Pokémon" [value]="searchTerm()"
+                (input)="searchTerm.set($any($event.target).value)">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary px-4">Search</button> </div>
+        <div class="col-auto">
+            <button type="button" class="btn btn-outline-secondary" (click)="clearSearch()">Clear</button>
+        </div>
+    </form>
+
+    <hr>
+
+    <div class="row row-cols-1 row-cols-md-4 g-4"> @for (pokemon of pokeService.pokemonList(); track pokemon.name) {
+        <div class="col">
+            <div class="card h-100 shadow-sm custom-card"> <div class="p-3"> <img [src]="'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + getPokemonID(pokemon.url) + '.png'"
+                        class="card-img-top pokemon-img" [alt]="pokemon.name">
+                </div>
+                <div class="card-body text-center border-top">
+                    <h6 class="card-title text-capitalize fw-bold">{{ pokemon.name }}</h6>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</div>
